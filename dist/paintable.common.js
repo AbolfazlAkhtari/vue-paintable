@@ -1286,10 +1286,10 @@ let currentY = 0;
         this.pointCoords = []; // temporary canvas
 
         this.tempCanvas = this.$refs['temp-canvas-' + this.canvasId];
-        this.tempCtx = this.tempCanvas.getContext('2d'); // canvas with drawing
+        this.tempCtx = this.tempCanvas.getContext('2d', { alpha: true }); // canvas with drawing
 
         this.canvas = this.$refs['canvas-' + this.canvasId];
-        this.ctx = this.canvas.getContext('2d');
+        this.ctx = this.canvas.getContext('2d', { alpha: false });
         this.tempCtx.lineCap = 'round';
         this.ctx.lineCap = 'round';
         this.tempCtx.lineWidth = this.lineWidth;
@@ -1305,6 +1305,11 @@ let currentY = 0;
 
         this.loadImageFromStorage();
         this.$emit('toggle-paintable', this.isActive);
+
+        this.ctx.beginPath();
+        this.ctx.rect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.fillStyle = "white";
+        this.ctx.fill();
       } catch (err) {// this.hide = true;
         // this.hidePaintableNavigation = true;
       }
